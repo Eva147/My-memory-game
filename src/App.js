@@ -1,23 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
+
+const cardImages = [
+  {'src': '/img/rose.png'},
+  {'src': '/img/lavender.png'},
+  {'src': '/img/pink.png'},
+  {'src': '/img/rainbow.png'},
+  {'src': '/img/white_rose.png'},
+  {'src': '/img/yellow.png'}
+]
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>My Memory Game</h1>
+      <button>New Game</button>
     </div>
   );
 }
