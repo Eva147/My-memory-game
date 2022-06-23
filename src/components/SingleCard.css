@@ -1,0 +1,10 @@
+.card {
+    position: relative;
+}
+.card img {
+    width: 10rem;
+    height: 10rem;
+    display: block;
+    border-radius: 10px;
+    background-color: #002F59;
+}

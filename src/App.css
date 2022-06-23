@@ -18,16 +18,23 @@ button {
   color: #fff;
  }
 
- .front {
-  width: 200px;
-  height: 200px;
-  border-radius: 10px;
-  background-color: #002F59;
+ .card-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
  }
 
- .back {
-  width: 200px;
-  height: 200px;
-  border-radius: 10px;
-  background-color: #002F59;
- }
+/* .front {
+width: 200px;
+height: 200px;
+border-radius: 10px;
+background-color: #002F59;
+}
+
+.back {
+width: 200px;
+height: 200px;
+border-radius: 10px;
+background-color: #002F59;
+} */

@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import './App.css';
+import SingleCard from './components/SingleCard';
 
 const cardImages = [
-  {'src': '/img/rose.png'},
-  {'src': '/img/lavender.png'},
   {'src': '/img/pink.png'},
+  {'src': '/img/purple.png'},
   {'src': '/img/rainbow.png'},
-  {'src': '/img/white_rose.png'},
-  {'src': '/img/yellow.png'}
+  {'src': '/img/rose.png'},
+  {'src': '/img/sunflower.png'},
+  {'src': '/img/white_rose.png'}
 ]
 
 function App() {
@@ -26,10 +27,8 @@ function App() {
 
     setCards(shuffledCards)
     setTurns(0)
-  } 
-
+  }
   console.log(cards, turns);
-
 
   return (
     <div className="App">
@@ -38,13 +37,11 @@ function App() {
 
       <div className='card-grid'>
         {cards.map(card => (
-          <div className='card' key={card.id}>
-            <div>
-              <img className='front' src={card.src} alt='card front' />
-              <img className='back' src='img/wallpapers.png' alt='card back' />
-            </div>
-          </div>
-        )) }
+          < SingleCard 
+            key={card.id}
+            card={card} 
+          />
+        ))}
       </div>
 
     </div>
