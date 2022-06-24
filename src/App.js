@@ -30,6 +30,10 @@ function App() {
     .sort(() => Math.random() - 0.5)
     .map(card => ({ ...card, id: Math.random() }))
 
+    // just in case if one card was already chosen before a new game
+    setChoiceOne(null)
+    setChoiceTwo(null)
+    
     setCards(shuffledCards)
     setTurns(0)
   }
@@ -65,7 +69,10 @@ function App() {
     }
   }, [choiceOne, choiceTwo])
 
-  console.log(cards)
+  // start the game automatically
+  useEffect(() => {
+    shuffleCards()
+  }, [])
 
   // reset choices & increase turn
   const resetTurn = () => {
@@ -91,7 +98,7 @@ function App() {
           />
         ))}
       </div>
-
+      <p>Turns: {turns}</p>
     </div>
   );
 }
