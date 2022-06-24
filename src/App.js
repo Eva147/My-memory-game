@@ -1,21 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import SingleCard from './components/SingleCard';
 
 const cardImages = [
-  {'src': '/img/pink.png'},
-  {'src': '/img/purple.png'},
-  {'src': '/img/rainbow.png'},
-  {'src': '/img/rose.png'},
-  {'src': '/img/sunflower.png'},
-  {'src': '/img/white_rose.png'}
+  { 'src': '/img/pink.png', matched: false },
+  { 'src': '/img/purple.png', matched: false },
+  { 'src': '/img/rainbow.png', matched: false },
+  { 'src': '/img/rose.png', matched: false },
+  { 'src': '/img/sunflower.png', matched: false },
+  { 'src': '/img/white_rose.png', matched: false }
 ]
 
 function App() {
- // cards for game
+  // cards for game
   const [cards, setCards] = useState([])
-// player's turns
-  const [turns, setTurns] = useState(0);
+  // player's turns
+  const [turns, setTurns] = useState(0)
+  // Cards which user choose
+  const [choiceOne, setChoiceOne] = useState(null)
+  const [choiceTwo, setChoiceTwo] = useState(null)
 
   // shuffle cards
   const shuffleCards = () => {
@@ -28,7 +31,47 @@ function App() {
     setCards(shuffledCards)
     setTurns(0)
   }
-  console.log(cards, turns);
+  
+  // handle a choice
+  const handleChoice = (card) => {
+    // check if choiceOne has a value
+    // if it hasn't then setChoiceOne
+    // if it has then setChoiceTwo
+    choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
+  }
+
+  // compare 2 selected cards
+  useEffect(() => {
+    if (choiceOne && choiceTwo) {
+
+      if (choiceOne.src === choiceTwo.src) {
+        // return a new array of cards with changed matched property to true for matched cards
+        setCards(prevCards => {
+          return prevCards.map(card => {
+            if (card.src === choiceOne.src) {
+              return {...card, matched: true }
+            } else {
+              return card
+            }
+          })
+        })
+        resetTurn()
+      } else {
+        
+        resetTurn()
+      }
+
+    }
+  }, [choiceOne, choiceTwo])
+
+  console.log(cards)
+
+  // reset choices & increase turn
+  const resetTurn = () => {
+    setChoiceOne(null)
+    setChoiceTwo(null)
+    setTurns(prevTurns => prevTurns + 1)
+  }
 
   return (
     <div className="App">
@@ -40,6 +83,7 @@ function App() {
           < SingleCard 
             key={card.id}
             card={card} 
+            handleChoice={handleChoice}
           />
         ))}
       </div>
