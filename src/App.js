@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import './App.css';
 import SingleCard from './components/SingleCard';
 
@@ -14,6 +14,8 @@ const cardImages = [
 function App() {
   // cards for game
   const [cards, setCards] = useState([])
+  // levels
+  const [level, setLevel] = useState(1)
   // player's turns
   const [turns, setTurns] = useState(0)
   // Cards which user choose
@@ -23,20 +25,24 @@ function App() {
   const [disabled, setDisabled] = useState(false)
 
   // shuffle cards
-  const shuffleCards = () => {
-    // we need to take each card twice, so we have 12 cards in total
-    const shuffledCards = [...cardImages, ...cardImages]
-    // sort images to mix them up
+  const shuffleCards = useCallback(() => {
+    console.log('Shuffle cards in level ' + level)
+    // take from cardImages array (level + 1) images
+    let amountOfCards = level + 1
+    let levelCards = cardImages.slice(0,amountOfCards)
+    // take each card twice
+    const shuffledCards = [...levelCards, ...levelCards]
+    // mix them up
     .sort(() => Math.random() - 0.5)
     .map(card => ({ ...card, id: Math.random() }))
 
-    // just in case if one card was already chosen before a new game
+    // just in case if one card was already chosen before
     setChoiceOne(null)
     setChoiceTwo(null)
-    
+
     setCards(shuffledCards)
     setTurns(0)
-  }
+  }, [level])
   
   // handle a choice
   const handleChoice = (card) => {
@@ -48,6 +54,7 @@ function App() {
 
   // compare 2 selected cards
   useEffect(() => {
+    const choices = choiceOne && choiceTwo
     if (choiceOne && choiceTwo) {
       setDisabled(true)
       if (choiceOne.src === choiceTwo.src) {
@@ -69,10 +76,34 @@ function App() {
     }
   }, [choiceOne, choiceTwo])
 
-  // start the game automatically
-  useEffect(() => {
+  // check if all cards have matched === true
+  const checkMatches = (card) => {
+    if(card.matched === true) {
+      console.log('checkMatches: ' + card.matched)
+      return true
+    }
+  }
+
+  // automatic start of the game
+  const startGame = useEffect (() => {
+    setLevel(1)
+    console.log('Start game: ' + level)
     shuffleCards()
   }, [])
+
+  // go to the next level
+  useEffect(() => {
+    console.log('cards: ' + cards)
+    if (cards.length !==0 && cards.every(checkMatches)) {
+      console.log("All matched")
+      if (level <= 6) {
+        resetLevel()
+        shuffleCards()
+      } else {
+        console.log('Game over')
+      }
+    }
+  }, [cards])
 
   // reset choices & increase turn
   const resetTurn = () => {
@@ -82,10 +113,17 @@ function App() {
     setDisabled(false)
   }
 
+  // reset level
+  const resetLevel = () => {
+      setLevel(prevLevel => prevLevel + 1)
+      console.log('reset level: ' + level)
+  }
+
   return (
     <div className="App">
       <h1>My Memory Game</h1>
-      <button onClick={shuffleCards}>New Game</button>
+      <h3>level {level}</h3>
+      <button onClick={startGame}>New Game</button>
 
       <div className='card-grid'>
         {cards.map(card => (

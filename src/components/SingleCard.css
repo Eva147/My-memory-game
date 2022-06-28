@@ -8,6 +8,8 @@
     border-radius: 15px;
     border: 1px solid #002F59;
     background-color: #F6D8E3;
+    box-shadow: rgba(0, 0, 0, 0.3) 5px 5px 15px;
+
 }
 
 /* front of card - picture */
