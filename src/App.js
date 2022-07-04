@@ -100,7 +100,7 @@ function App() {
     setDisabled(false)
   }
 
-////////////////////////////////             NEXT LEVEL
+////////////////////////////////             NEXT LEVEL //////////// END OF THE GAME
 
   // go to the next level
   useEffect(() => {
@@ -118,17 +118,6 @@ function App() {
     }
     
   }, [cards, level])
-
-
-///////////////////////////////////         END OF THE GAME
-
-// useEffect(() => {
-//   if (level === 5) {
-//     if(cards.every(checkMatches)) {
-//       console.log('Game over')
-//     }
-//   }
-// }, [level, cards])
 
 
   return (
