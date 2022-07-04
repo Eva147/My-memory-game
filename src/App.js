@@ -15,7 +15,7 @@ function App() {
   // cards for game
   const [cards, setCards] = useState([])
   // levels
-  const [level, setLevel] = useState(1)
+  const [level, setLevel] = useState(0)
   // player's turns
   const [turns, setTurns] = useState(0)
   // Cards which user choose
@@ -24,12 +24,12 @@ function App() {
   // add disabled state to prevent multiple choices at the same time
   const [disabled, setDisabled] = useState(false)
 
+
   // shuffle cards
   const shuffleCards = useCallback(() => {
-    console.log('Shuffle cards in level ' + level)
     // take from cardImages array (level + 1) images
-    let amountOfCards = level + 1
-    let levelCards = cardImages.slice(0,amountOfCards)
+    //let amountOfCards = level + 1
+    let levelCards = cardImages.slice(0,level + 1)
     // take each card twice
     const shuffledCards = [...levelCards, ...levelCards]
     // mix them up
@@ -44,6 +44,16 @@ function App() {
     setTurns(0)
   }, [level])
   
+//////////////////////////////                   START
+
+  const startGame = () => {
+    setLevel(1)
+  }
+
+  useEffect(() => shuffleCards(), [level]);
+
+/////////////////////////////                  CHOICE
+
   // handle a choice
   const handleChoice = (card) => {
     // check if choiceOne has a value
@@ -54,7 +64,6 @@ function App() {
 
   // compare 2 selected cards
   useEffect(() => {
-    const choices = choiceOne && choiceTwo
     if (choiceOne && choiceTwo) {
       setDisabled(true)
       if (choiceOne.src === choiceTwo.src) {
@@ -79,31 +88,9 @@ function App() {
   // check if all cards have matched === true
   const checkMatches = (card) => {
     if(card.matched === true) {
-      console.log('checkMatches: ' + card.matched)
       return true
     }
   }
-
-  // automatic start of the game
-  const startGame = useEffect (() => {
-    setLevel(1)
-    console.log('Start game: ' + level)
-    shuffleCards()
-  }, [])
-
-  // go to the next level
-  useEffect(() => {
-    console.log('cards: ' + cards)
-    if (cards.length !==0 && cards.every(checkMatches)) {
-      console.log("All matched")
-      if (level <= 6) {
-        resetLevel()
-        shuffleCards()
-      } else {
-        console.log('Game over')
-      }
-    }
-  }, [cards])
 
   // reset choices & increase turn
   const resetTurn = () => {
@@ -113,11 +100,36 @@ function App() {
     setDisabled(false)
   }
 
-  // reset level
-  const resetLevel = () => {
-      setLevel(prevLevel => prevLevel + 1)
-      console.log('reset level: ' + level)
-  }
+////////////////////////////////             NEXT LEVEL
+
+  // go to the next level
+  useEffect(() => {
+    if (level < 5) {
+      if (cards.length !==0 && cards.every(checkMatches)) {
+        setLevel(prevLevel => prevLevel + 1)
+        setCards(prevCards => {
+          return prevCards.map(card => {return {...card, matched: false }})
+        })
+      }
+    } else if (level === 5) {
+      if (cards.length !==0 && cards.every(checkMatches)) {
+        console.log('Game over')
+      }
+    }
+    
+  }, [cards, level])
+
+
+///////////////////////////////////         END OF THE GAME
+
+// useEffect(() => {
+//   if (level === 5) {
+//     if(cards.every(checkMatches)) {
+//       console.log('Game over')
+//     }
+//   }
+// }, [level, cards])
+
 
   return (
     <div className="App">
@@ -127,7 +139,7 @@ function App() {
 
       <div className='card-grid'>
         {cards.map(card => (
-          < SingleCard 
+          <SingleCard 
             key={card.id}
             card={card} 
             handleChoice={handleChoice}
