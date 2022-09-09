@@ -3,32 +3,3 @@
   margin: 15px auto;
 }
 
-h1 {
-  margin: 10px auto;
-}
-
-h3 {
-  margin: 1rem auto;
-}
-
-button {
-  background: none;
-  border: 2px solid #002F59;
-  padding: 6px 12px;
-  border-radius: 4px;
-  color: #002F59;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 1em;
-}
- button:hover {
-  background: #FB6682;
-  color: #fff;
- }
-
- .card-grid {
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 20px;
- }
