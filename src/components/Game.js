@@ -1,24 +1,26 @@
 import React from 'react'
 import { useState, useEffect, useCallback } from 'react'
-import SingleCard from '../../components/SingleCard';
-
+import { useNavigate } from 'react-router-dom';
+import SingleCard from '../components/SingleCard';
 // styles
-import './Home.css'
+import './Game.css'
+
 
 const cardImages = [
     { 'src': '/img/pink.png', matched: false },
     { 'src': '/img/purple.png', matched: false },
-    { 'src': '/img/rainbow.png', matched: false },
+    { 'src': '/img/rainbow.png', matched: false},
     { 'src': '/img/rose.png', matched: false },
     { 'src': '/img/sunflower.png', matched: false },
     { 'src': '/img/white_rose.png', matched: false }
 ]
-  
-export default function Home() {
+
+export default function Game() {
+    const navigate = useNavigate()
     // cards for game
     const [cards, setCards] = useState([])
     // levels
-    const [level, setLevel] = useState(0)
+    const [level, setLevel] = useState(1)
     // player's turns
     const [turns, setTurns] = useState(0)
     // Cards which user choose
@@ -48,11 +50,15 @@ export default function Home() {
     }, [level])
     
   //////////////////////////////                   START
-  
-    const startGame = () => {
-      setLevel(1)
+
+    function createMarkup() {
+        if (level < 5) {
+            return {__html: 'Next level'}
+        } else {
+            return {__html: 'See results'}
+        }
     }
-  
+    
     useEffect(() => shuffleCards(), [level]);
   
   /////////////////////////////                  CHOICE
@@ -116,17 +122,14 @@ export default function Home() {
         }
       } else if (level === 5) {
         if (cards.length !==0 && cards.every(checkMatches)) {
-          console.log('Game over')
+            navigate('/end')
         }
       } 
     }
 
     return (
-        <div className='home'>
-            <h1>My Memory Game</h1>
+        <div className='game'>
             <h3>level {level}</h3>
-            <button onClick={startGame}>New Game</button>
-
             <div className='card-grid'>
                 {cards.map(card => (
                     <SingleCard 
@@ -139,7 +142,7 @@ export default function Home() {
                 ))}
             </div>
             <p>Turns: {turns}</p>
-            <button onClick={handleNextLevel}>Next level</button>
+            <button dangerouslySetInnerHTML={createMarkup()} onClick={handleNextLevel} />
         </div>
-    );
+    )
 }

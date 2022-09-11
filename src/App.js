@@ -3,13 +3,15 @@ import {Routes, Route} from "react-router-dom";
 import './App.css';
 
 // page components
-import Home from './pages/home/Home'
-import Game from './pages/game/Game'
-import End from './pages/end/End'
+import Home from "./pages/Home"
+import Game from "./components/Game"
+import End from "./components/End"
+import Navbar from './components/Navbar'
 
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/game" element={<Game />} />
@@ -18,6 +20,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
