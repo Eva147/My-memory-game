@@ -16,6 +16,16 @@ const cardImages = [
 ]
 
 export default function Game() {
+    // class Statistics {
+    //   constructor(levelOfGame, turnsForLevel) {
+    //     this.levelOfGame = levelOfGame;
+    //     this.turnsForLevel = turnsForLevel;                 STATISTICS!!!!!!!!!!!!!!
+    //   }
+    // }
+    // const gameStatistics = [];
+    // const [levelStat, setLevelStat] = useState({});
+
+
     const navigate = useNavigate()
     // cards for game
     const [cards, setCards] = useState([])
@@ -28,8 +38,8 @@ export default function Game() {
     const [choiceTwo, setChoiceTwo] = useState(null)
     // add disabled state to prevent multiple choices at the same time
     const [disabled, setDisabled] = useState(false)
-  
-  
+
+
     // shuffle cards
     const shuffleCards = useCallback(() => {
       // take from cardImages array (level + 1) images
@@ -40,15 +50,15 @@ export default function Game() {
       // mix them up
       .sort(() => Math.random() - 0.5)
       .map(card => ({ ...card, id: Math.random() }))
-  
+
       // just in case if one card was already chosen before
       setChoiceOne(null)
       setChoiceTwo(null)
-  
+
       setCards(shuffledCards)
       setTurns(0)
     }, [level])
-    
+
   //////////////////////////////                   START
 
     function createMarkup() {
@@ -58,11 +68,11 @@ export default function Game() {
             return {__html: 'See results'}
         }
     }
-    
-    useEffect(() => shuffleCards(), [level]);
-  
+
+    useEffect(() => shuffleCards(), [level, shuffleCards]);
+
   /////////////////////////////                  CHOICE
-  
+
     // handle a choice
     const handleChoice = (card) => {
       // check if choiceOne has a value
@@ -70,7 +80,7 @@ export default function Game() {
       // if it has then setChoiceTwo
       choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
     }
-  
+
     // compare 2 selected cards
     useEffect(() => {
       if (choiceOne && choiceTwo) {
@@ -90,17 +100,17 @@ export default function Game() {
         } else {
           setTimeout (() => resetTurn(), 1000)
         }
-  
+
       }
     }, [choiceOne, choiceTwo])
-  
+
     // check if all cards have matched === true
     const checkMatches = (card) => {
       if(card.matched === true) {
         return true
       }
     }
-  
+
     // reset choices & increase turn
     const resetTurn = () => {
       setChoiceOne(null)
@@ -108,13 +118,19 @@ export default function Game() {
       setTurns(prevTurns => prevTurns + 1)
       setDisabled(false)
     }
-  
-  ////////////////////////////////     NEXT LEVEL //////////// END OF THE GAME
-  
+
+    const handleStat = (level, turns) => {
+      setLevelStat(new Statistics(level, turns));                     STATISTICS
+      console.log(levelStat);
+    }
+
+  ////////////////////////////////     NEXT LEVEL    //////////// END OF THE GAME
+
     // go to the next level
     function handleNextLevel() {
       if (level < 5) {
         if (cards.length !==0 && cards.every(checkMatches)) {
+          handleStat(level, turns)
           setLevel(prevLevel => prevLevel + 1)
           setCards(prevCards => {
             return prevCards.map(card => {return {...card, matched: false }})
@@ -122,9 +138,9 @@ export default function Game() {
         }
       } else if (level === 5) {
         if (cards.length !==0 && cards.every(checkMatches)) {
-            navigate('/end')
+          navigate('/')
         }
-      } 
+      }
     }
 
     return (
@@ -132,9 +148,9 @@ export default function Game() {
             <h3>level {level}</h3>
             <div className='card-grid'>
                 {cards.map(card => (
-                    <SingleCard 
+                    <SingleCard
                         key={card.id}
-                        card={card} 
+                        card={card}
                         handleChoice={handleChoice}
                         flipped={card === choiceOne || card === choiceTwo || card.matched}
                         disabled={disabled}

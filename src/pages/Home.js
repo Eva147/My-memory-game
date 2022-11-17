@@ -15,11 +15,11 @@ export default function Game() {
   }
   useEffect(() => {
     clicked && navigate('/game')
-  }, [clicked])
+  }, [clicked, navigate])
 
     return (
         <div className='home'>
-          <button onClick={handleClick}>New Game</button> 
+          <button onClick={handleClick}>New Game</button>
         </div>
     );
 }
