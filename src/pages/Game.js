@@ -119,10 +119,10 @@ export default function Game() {
       setDisabled(false)
     }
 
-    const handleStat = (level, turns) => {
-      setLevelStat(new Statistics(level, turns));                     STATISTICS
-      console.log(levelStat);
-    }
+    // const handleStat = (level, turns) => {
+    //   // setLevelStat(new Statistics(level, turns));                     STATISTICS
+    //   console.log(levelStat);
+    // }
 
   ////////////////////////////////     NEXT LEVEL    //////////// END OF THE GAME
 
@@ -130,7 +130,7 @@ export default function Game() {
     function handleNextLevel() {
       if (level < 5) {
         if (cards.length !==0 && cards.every(checkMatches)) {
-          handleStat(level, turns)
+          // handleStat(level, turns)
           setLevel(prevLevel => prevLevel + 1)
           setCards(prevCards => {
             return prevCards.map(card => {return {...card, matched: false }})
