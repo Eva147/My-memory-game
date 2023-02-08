@@ -22,7 +22,8 @@ button {
   cursor: pointer;
   font-size: 2.5rem;
 }
-  button:hover {
-  background: #19282F;
-  color: #fff;
-  }
+
+button:hover {
+background: #19282F;
+color: #fff;
+}
