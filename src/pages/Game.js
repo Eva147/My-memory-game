@@ -7,10 +7,10 @@ import './Game.css'
 
 
 const cardImages = [
-    { 'src': '/img/pink.png', matched: false },
-    { 'src': '/img/sunflower.png', matched: false },
-    { 'src': '/img/white_rose.png', matched: false },
-    { 'src': '/img/purple.png', matched: false },
+    { 'src': '/img/smile.png', matched: false },
+    { 'src': '/img/border-collie.png', matched: false },
+    { 'src': '/img/black-beauty.png', matched: false },
+    { 'src': '/img/puppy.png', matched: false },
     { 'src': '/img/rose.png', matched: false},
     { 'src': '/img/rainbow.png', matched: false}
 ]
