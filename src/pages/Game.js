@@ -10,9 +10,7 @@ const cardImages = [
     { 'src': '/img/smile.png', matched: false },
     { 'src': '/img/border-collie.png', matched: false },
     { 'src': '/img/black-beauty.png', matched: false },
-    { 'src': '/img/puppy.png', matched: false },
-    { 'src': '/img/rose.png', matched: false},
-    { 'src': '/img/rainbow.png', matched: false}
+    { 'src': '/img/puppy.png', matched: false }
 ]
 
 let statistics = [];
