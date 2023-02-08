@@ -1,13 +1,14 @@
 .card {
     position: relative;
+    cursor: pointer;
 }
 .card img {
+    box-sizing: border-box;
     width: 10rem;
     height: 10rem;
     display: block;
     border-radius: 15px;
-    border: 1px solid #002F59;
-    background-color: #F6D8E3;
+    border: 1px solid #19282F;
     box-shadow: rgba(0, 0, 0, 0.3) 5px 5px 15px;
 
 }
@@ -21,6 +22,7 @@
 .flipped .front {
     transform: rotateY(0deg);
     transition-delay: 0.2s;
+    background-color: #fff1eb;
 }
 
 /* back of card - cover */

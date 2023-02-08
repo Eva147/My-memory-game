@@ -19,6 +19,8 @@ export default function Game() {
 
     return (
         <div className='home'>
+          <img src='/img/main_page_image.png' className='main_image' alt='main_image'></img>
+          <h1 className="title">Memory Game</h1>
           <button onClick={handleClick}>New Game</button>
         </div>
     );

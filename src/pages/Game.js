@@ -15,17 +15,9 @@ const cardImages = [
     { 'src': '/img/white_rose.png', matched: false }
 ]
 
+const statistics = [];
+
 export default function Game() {
-    // class Statistics {
-    //   constructor(levelOfGame, turnsForLevel) {
-    //     this.levelOfGame = levelOfGame;
-    //     this.turnsForLevel = turnsForLevel;                 STATISTICS!!!!!!!!!!!!!!
-    //   }
-    // }
-    // const gameStatistics = [];
-    // const [levelStat, setLevelStat] = useState({});
-
-
     const navigate = useNavigate()
     // cards for game
     const [cards, setCards] = useState([])
@@ -38,7 +30,6 @@ export default function Game() {
     const [choiceTwo, setChoiceTwo] = useState(null)
     // add disabled state to prevent multiple choices at the same time
     const [disabled, setDisabled] = useState(false)
-
 
     // shuffle cards
     const shuffleCards = useCallback(() => {
@@ -119,15 +110,11 @@ export default function Game() {
       setDisabled(false)
     }
 
-    // const handleStat = (level, turns) => {
-    //   // setLevelStat(new Statistics(level, turns));                     STATISTICS
-    //   console.log(levelStat);
-    // }
-
-  ////////////////////////////////     NEXT LEVEL    //////////// END OF THE GAME
-
+  ////////////////////////////////     NEXT LEVEL /// END OF THE GAME     ////////////
     // go to the next level
     function handleNextLevel() {
+      statistics.push(turns);
+      console.log(statistics);
       if (level < 5) {
         if (cards.length !==0 && cards.every(checkMatches)) {
           // handleStat(level, turns)
@@ -138,27 +125,33 @@ export default function Game() {
         }
       } else if (level === 5) {
         if (cards.length !==0 && cards.every(checkMatches)) {
-          navigate('/')
+          navigate('/end')
         }
       }
     }
 
     return (
         <div className='game'>
-            <h3>level {level}</h3>
-            <div className='card-grid'>
-                {cards.map(card => (
-                    <SingleCard
-                        key={card.id}
-                        card={card}
-                        handleChoice={handleChoice}
-                        flipped={card === choiceOne || card === choiceTwo || card.matched}
-                        disabled={disabled}
-                    />
-                ))}
+            <h3>Level {level}</h3>
+            <div className='gameWrapper'>
+              <div className='card-grid'>
+                  {cards.map(card => (
+                      <SingleCard
+                          key={card.id}
+                          card={card}
+                          handleChoice={handleChoice}
+                          flipped={card === choiceOne || card === choiceTwo || card.matched}
+                          disabled={disabled}
+                      />
+                  ))}
+              </div>
+              <div className='footer'>
+                <p>Turns: {turns}</p>
+                <button dangerouslySetInnerHTML={createMarkup()} onClick={handleNextLevel} />
+                <button className='footer_button_main' onClick={() => navigate('/')}>Main page</button>
+              </div>
             </div>
-            <p>Turns: {turns}</p>
-            <button dangerouslySetInnerHTML={createMarkup()} onClick={handleNextLevel} />
+
         </div>
     )
 }
